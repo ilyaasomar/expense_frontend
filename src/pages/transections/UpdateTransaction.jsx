@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createTransaction } from "../../redux/services/transactionSlice";
+import {
+  createTransaction,
+  getTransaction,
+} from "../../redux/services/transactionSlice";
 
-const AddTransection = () => {
-  const { error } = useSelector((state) => state.transactionState);
+const UpdateTransection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [transaction, setTransaction] = useState({
+  const { id } = useParams();
+  console.log(id);
+  useEffect(() => {
+    dispatch(getTransaction(id));
+  }, [id]);
+  const { transaction, error } = useSelector((state) => state.transactionState);
+  const [transaction_data, setTransaction] = useState({
     transection_type: "",
     amount: "",
     registred_date: "",
@@ -20,17 +28,20 @@ const AddTransection = () => {
   }, [error]);
 
   const handleChange = (event) => {
-    setTransaction({ ...transaction, [event.target.name]: event.target.value });
+    setTransaction({
+      ...transaction_data,
+      [event.target.name]: event.target.value,
+    });
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createTransaction({ transaction, toast, navigate }));
+    // dispatch(createTransaction({ transaction, toast, navigate }));
     console.log(transaction);
   };
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="flex justify-between p-4">
-        <h2 className="font-bold text-xl">Transection Form</h2>
+        <h2 className="font-bold text-xl">Update Transection Form</h2>
         <h2>Welcome Back, Ilyas</h2>
       </div>
       <div className="p-4">
@@ -46,6 +57,7 @@ const AddTransection = () => {
                   className="border border-gray-400 py-2 px-3 rounded-md"
                   name="transection_type"
                   onChange={handleChange}
+                  value={transaction?.transection_type}
                   required
                 >
                   <option value="">Select</option>
@@ -61,9 +73,9 @@ const AddTransection = () => {
                   type="number"
                   name="amount"
                   onChange={handleChange}
+                  value={transaction?.amount}
                   placeholder="Enter the amount"
                   className="border border-gray-400 py-2 px-3 rounded-md"
-                  required
                 />
               </div>
               <div className="mt-5 grid grid-cols-1 gap-3 w-[700px]">
@@ -74,8 +86,8 @@ const AddTransection = () => {
                   type="date"
                   name="registred_date"
                   onChange={handleChange}
+                  value={Date(transaction?.registred_date)}
                   className="border border-gray-400 py-2 px-3 rounded-md"
-                  required
                 />
               </div>
               <div className="mt-5 grid grid-cols-1 gap-3 w-[700px]">
@@ -87,17 +99,23 @@ const AddTransection = () => {
                   rows={3}
                   name="description"
                   onChange={handleChange}
-                  required
+                  value={transaction?.description}
                 ></textarea>
               </div>
 
-              <div className="mt-5 w-44">
+              <div className="mt-5 w-72 flex gap-2">
                 <button
                   type="submit"
-                  className="w-full bg-blue-500 py-3 text-center text-white rounded-md"
+                  className="w-2/3 bg-blue-500 py-3 text-center text-white rounded-md"
                 >
-                  Create Transaction
+                  Update Transaction
                 </button>
+                <Link
+                  to="/transactions"
+                  className="w-1/3 bg-blue-500 py-3 text-center list-none decoration-none text-white rounded-md"
+                >
+                  Cancel
+                </Link>
               </div>
             </form>
           </div>
@@ -108,4 +126,4 @@ const AddTransection = () => {
   );
 };
 
-export default AddTransection;
+export default UpdateTransection;

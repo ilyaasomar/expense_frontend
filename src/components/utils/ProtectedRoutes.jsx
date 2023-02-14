@@ -13,8 +13,8 @@ const ProtectedRoutes = ({ children }) => {
   //   <Navigate to="/signin" />;
   //     }
   // }, []);
-  // return user ? children : <Navigate to="/signin" />;
-  return user ? children : <RedirectToLogin />;
+  return user ? children : <Navigate to="/signin" />;
+  // return user ? children : <RedirectToLogin />;
 };
 
 export default ProtectedRoutes;

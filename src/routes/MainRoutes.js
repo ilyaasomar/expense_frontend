@@ -14,6 +14,7 @@ import Signup from "../pages/authentication/Signup";
 
 // protected routes
 import ProtectedRoutes from "../components/utils/ProtectedRoutes";
+import UpdateTransection from "../pages/transections/UpdateTransaction";
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -66,6 +67,14 @@ const MainRoutes = () => {
             element={
               <ProtectedRoutes>
                 <Transections />
+              </ProtectedRoutes>
+            }
+          />
+          <Route
+            path="/edit-transaction/:id"
+            element={
+              <ProtectedRoutes>
+                <UpdateTransection />
               </ProtectedRoutes>
             }
           />

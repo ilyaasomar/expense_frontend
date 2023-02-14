@@ -1,9 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
-import { data } from "../../data/data1.js";
+import { data } from "../data/data1.js";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { TransectinContext } from "../context/transectionContex";
 const Transections = () => {
+  // const { transections } = useContext(TransectinContext);
+  // console.log(transections);
   const columns = [
     {
       field: "id",
@@ -53,7 +56,7 @@ const Transections = () => {
         <div className="flex justify-between p-4">
           <h2 className="font-bold text-2xl">Customers Data</h2>
           {/* <h2>Welcome Back, Ilyas</h2> */}
-          <Link to="/add-transaction">
+          <Link to="/element-form">
             <button className="border-2 px-4 py-2 bg-blue-800 text-white rounded-md text-center">
               New Transection
             </button>

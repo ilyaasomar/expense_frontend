@@ -68,3 +68,19 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+<!-- shaqooyinka i dhiman ayaa halkan ku xusayaa -->
+
+### logout marki aa dhaho localstorage xogta waa laga tiraa lkn banaanka logama tuurayo userka.
+
+### marki aan abuuro expense kadibne leyso saro no deposit kadib abuurida labaad waxa so laabanayo toastify ga isagoo aan baxeyn ilaa aad ka sameyos refresh.
+
+### update transasction ka date field soma qabanayo date ka la badalayo.
+
+### tableska xogta transactions ka lagu aqriyano waa in aan u sameeyo total amount oo hoos la dhigaayo.
+
+### deposit report oo leh date range iyo total amount ku saleysan date kaas waa in aan sameeyo.
+
+### expense report oo leh date range iyo total amount ku saleysan date kaas waa in aan sameeyo.
+
+### user profile in aan sameeyo

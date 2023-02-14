@@ -12,5 +12,8 @@ API.interceptors.request.use((req) => {
 export const createTransaction = (transaction) =>
   API.post("/transactions", transaction);
 export const getTransactions = () => API.get("/transactions");
+export const getTransaction = (id) =>
+  API.post(`/transactions/singleTransection/${id}`);
+export const deleteTransaction = (id) => API.delete(`/transactions/${id}`);
 
 export const signin = (userData) => API.post("/users/signin", userData);
