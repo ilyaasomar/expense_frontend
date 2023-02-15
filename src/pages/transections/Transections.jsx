@@ -82,7 +82,7 @@ const Transections = () => {
       width: 250,
       renderCell: (params) => {
         return (
-          <div className="flex justify-center items-center gap-1">
+          <div className="flex justify-center items-center gap-0.1">
             <Link
               to="/transaction/id1"
               className="border-2 px-2 py-0.5 bg-green-600 text-white font-medium rounded-md items-center"

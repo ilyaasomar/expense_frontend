@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import classNames from "classnames";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { FcBullish } from "react-icons/fc";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -15,15 +15,12 @@ const linkClass =
   "flex items-center gap-2 font-light px-3 py-2 hover:bg-gray-700 hover:no-underline active:bg-neutral-600 rounded-sm text-base";
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const andleLogout = () => {
-    // useEffect(() => {
     dispatch(setLogout());
-    // }, [dispatch]);
+    navigate("/signin");
   };
-  // useEffect(() => {
-  //   andleLogout();
-  // }, []);
   return (
     <div className="bg-gray-800 w-60 p-3 flex flex-col">
       <div className="flex items-center gap-2 px-1 py-3">

@@ -20,7 +20,7 @@ export const createTransaction = createAsyncThunk(
     try {
       const response = await api.createTransaction(transaction);
       toast.success("Transaction Created Successfully!");
-      navigate("/transactions", { autoClose: 1000 });
+      navigate("/transactions", { position: "top-right", autoClose: 1000 });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -45,7 +45,10 @@ export const deleteTransaction = createAsyncThunk(
   async ({ id, toast }, { rejectWithValue }) => {
     try {
       const response = await api.deleteTransaction(id);
-      toast.success("Transaction Deleted Successfully!", { autoClose: 2000 });
+      toast.success("Transaction Deleted Successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -61,7 +64,11 @@ const transectionSlice = createSlice({
     loading: false,
     error: "",
   },
-  reducers: {},
+  reducers: {
+    clearError: (state) => {
+      state.error = "";
+    },
+  },
   extraReducers: {
     [getTransactions.pending]: (state, action) => {
       state.loading = true;
@@ -114,5 +121,5 @@ const transectionSlice = createSlice({
     },
   },
 });
-
+export const { clearError } = transectionSlice.actions;
 export default transectionSlice.reducer;

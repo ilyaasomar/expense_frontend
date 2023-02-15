@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { setLoginError, signin } from "../../redux/services/authSlice";
+import { clearError, signin } from "../../redux/services/authSlice";
 
 const Signin = () => {
   const { error, loading } = useSelector((state) => state.user);
@@ -16,28 +16,10 @@ const Signin = () => {
     error &&
       toast.error(error, {
         position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+        autoClose: 1000,
       });
-    // toast('🦄 Wow so easy!', {
-    //   position: "top-right",
-    //   autoClose: 5000,
-    //   hideProgressBar: false,
-    //   closeOnClick: true,
-    //   pauseOnHover: true,
-    //   draggable: true,
-    //   progress: undefined,
-    //   theme: "light",
-    //   });
-    // if (error) {
-    //   dispatch(setLoginError());
-    // }
-  }, [error]);
+    dispatch(clearError());
+  }, [error, dispatch]);
 
   const handleInput = (event) => {
     setUser({ ...userData, [event.target.name]: event.target.value });
@@ -45,8 +27,6 @@ const Signin = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(signin({ userData, toast, navigate }));
-
-    console.log(userData);
   };
   return (
     <div className="flex w-screen h-screen bg-gray-100">

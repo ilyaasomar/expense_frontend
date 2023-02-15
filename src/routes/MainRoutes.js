@@ -3,18 +3,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Layout from "../components/Layout";
 import Home from "../pages/Home";
-import Customer from "../pages/Customers";
-import Orders from "../pages/Orders";
-import InputGroup from "../pages/custom/InputGroup";
-import ElementForm from "../pages/custom/ElementForm";
 import Transections from "../pages/transections/Transections";
 import AddTransection from "../pages/transections/AddTransection";
 import Signin from "../pages/authentication/Signin";
 import Signup from "../pages/authentication/Signup";
 
 // protected routes
-import ProtectedRoutes from "../components/utils/ProtectedRoutes";
 import UpdateTransection from "../pages/transections/UpdateTransaction";
+import Statements from "../pages/transections/Statements";
+import ProtectedRoutes from "../middleware/ProtectedRoutes";
 const MainRoutes = () => {
   return (
     <BrowserRouter>
@@ -38,22 +35,7 @@ const MainRoutes = () => {
               </ProtectedRoutes>
             }
           />
-          <Route
-            path="/orders"
-            element={
-              <ProtectedRoutes>
-                <Orders />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
-            path="/customers"
-            element={
-              <ProtectedRoutes>
-                <Customer />
-              </ProtectedRoutes>
-            }
-          />
+
           <Route
             path="/add-transaction"
             element={
@@ -79,18 +61,10 @@ const MainRoutes = () => {
             }
           />
           <Route
-            path="/input-group"
+            path="/statements"
             element={
               <ProtectedRoutes>
-                <InputGroup />
-              </ProtectedRoutes>
-            }
-          />
-          <Route
-            path="/element-form"
-            element={
-              <ProtectedRoutes>
-                <ElementForm />
+                <Statements />
               </ProtectedRoutes>
             }
           />

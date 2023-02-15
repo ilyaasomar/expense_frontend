@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { clearError } from "../../redux/services/transactionSlice";
 import { createTransaction } from "../../redux/services/transactionSlice";
 
 const AddTransection = () => {
@@ -16,8 +17,13 @@ const AddTransection = () => {
   });
 
   useEffect(() => {
-    error && toast.error(error);
-  }, [error]);
+    error &&
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 1000,
+      });
+    dispatch(clearError());
+  }, [error, dispatch]);
 
   const handleChange = (event) => {
     setTransaction({ ...transaction, [event.target.name]: event.target.value });
