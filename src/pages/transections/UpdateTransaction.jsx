@@ -3,25 +3,35 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
-  createTransaction,
   getTransaction,
+  updateTransaction,
 } from "../../redux/services/transactionSlice";
 
 const UpdateTransection = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
-  console.log(id);
-  useEffect(() => {
-    dispatch(getTransaction(id));
-  }, [id]);
-  const { transaction, error } = useSelector((state) => state.transactionState);
+  // console.log(id);
+  const { transactions, error } = useSelector(
+    (state) => state.transactionState
+  );
+  // console.log(transactions);
   const [transaction_data, setTransaction] = useState({
     transection_type: "",
     amount: "",
     registred_date: "",
     description: "",
   });
+  useEffect(() => {
+    if (id) {
+      const signleTransaction = transactions.find(
+        (transaction) => transaction._id === id
+      );
+      setTransaction({ ...signleTransaction });
+      // dispatch(getTransaction(id));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   useEffect(() => {
     error && toast.error(error);
@@ -35,8 +45,8 @@ const UpdateTransection = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    // dispatch(createTransaction({ transaction, toast, navigate }));
-    console.log(transaction);
+    dispatch(updateTransaction({ id, transaction_data, toast, navigate }));
+    console.log(transaction_data);
   };
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -57,7 +67,7 @@ const UpdateTransection = () => {
                   className="border border-gray-400 py-2 px-3 rounded-md"
                   name="transection_type"
                   onChange={handleChange}
-                  value={transaction?.transection_type}
+                  value={transaction_data?.transection_type}
                   required
                 >
                   <option value="">Select</option>
@@ -73,7 +83,7 @@ const UpdateTransection = () => {
                   type="number"
                   name="amount"
                   onChange={handleChange}
-                  value={transaction?.amount}
+                  value={transaction_data?.amount}
                   placeholder="Enter the amount"
                   className="border border-gray-400 py-2 px-3 rounded-md"
                 />
@@ -86,7 +96,7 @@ const UpdateTransection = () => {
                   type="date"
                   name="registred_date"
                   onChange={handleChange}
-                  value={Date(transaction?.registred_date)}
+                  value={transaction_data?.registred_date}
                   className="border border-gray-400 py-2 px-3 rounded-md"
                 />
               </div>
@@ -99,7 +109,7 @@ const UpdateTransection = () => {
                   rows={3}
                   name="description"
                   onChange={handleChange}
-                  value={transaction?.description}
+                  value={transaction_data?.description}
                 ></textarea>
               </div>
 

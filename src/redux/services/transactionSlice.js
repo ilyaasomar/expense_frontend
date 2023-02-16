@@ -19,8 +19,11 @@ export const createTransaction = createAsyncThunk(
   async ({ transaction, toast, navigate }, { rejectWithValue }) => {
     try {
       const response = await api.createTransaction(transaction);
-      toast.success("Transaction Created Successfully!");
-      navigate("/transactions", { position: "top-right", autoClose: 1000 });
+      toast.success("Transaction Created Successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      navigate("/transactions");
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -39,6 +42,26 @@ export const getTransaction = createAsyncThunk(
     }
   }
 );
+
+// update transaction
+export const updateTransaction = createAsyncThunk(
+  "transaction/updateTransaction",
+  async ({ id, transaction_data, toast, navigate }, { rejectWithValue }) => {
+    try {
+      const response = api.updateTransaction(id, transaction_data);
+      toast.success("Transaction Updated Successfully!", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      navigate("/transactions");
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 // delete transections based login user
 export const deleteTransaction = createAsyncThunk(
   "transaction/deleteTransaction",
@@ -60,6 +83,7 @@ const transectionSlice = createSlice({
   name: "transsection",
   initialState: {
     transactions: [],
+    statementTransactions: [],
     transaction: null,
     loading: false,
     error: "",
@@ -67,6 +91,22 @@ const transectionSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = "";
+    },
+    allTransactionStatement: (state, action) => {
+      let transType = action.payload.transaction_type;
+      let startDate = action.payload.start_date;
+      let endDate = action.payload.end_date;
+      // state.statementTransactions = action.payload.transaction_type;
+      state.statementTransactions = state.transactions.find((trans) =>
+        trans.registred_date >= startDate ? action.payload : ""
+      );
+      // state.statementTransactions = state.transactions.find(
+      //   (trans) =>
+      //     trans.registred_date >= startDate &&
+      //     trans.registred_date <= endDate &&
+      //     trans.transaction_type === "deposit",
+      //   "withdraw"
+      // );
     },
   },
   extraReducers: {
@@ -103,6 +143,24 @@ const transectionSlice = createSlice({
       state.loading = false;
       state.error = action.payload || action.payload.error;
     },
+    [updateTransaction.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [updateTransaction.fulfilled]: (state, action) => {
+      state.loading = false;
+      const {
+        arg: { id, transaction_data },
+      } = action.meta;
+      if (id) {
+        state.transactions = state.transactions.map((item) =>
+          item._id === id ? transaction_data : item
+        );
+      }
+    },
+    [updateTransaction.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload || action.payload.error;
+    },
     [deleteTransaction.pending]: (state, action) => {
       state.loading = true;
     },
@@ -121,5 +179,5 @@ const transectionSlice = createSlice({
     },
   },
 });
-export const { clearError } = transectionSlice.actions;
+export const { clearError, allTransactionStatement } = transectionSlice.actions;
 export default transectionSlice.reducer;

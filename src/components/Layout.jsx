@@ -1,13 +1,14 @@
 import React from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Footer from "./Footer";
 import decode from "jwt-decode";
 import { useDispatch } from "react-redux";
 import { setLogout } from "../redux/services/authSlice";
 const Layout = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   // get token from local storage to check if expired
   const user = JSON.parse(localStorage.getItem("user"));
   const token = user?.token;
@@ -15,6 +16,8 @@ const Layout = () => {
     const decodedToken = decode(token);
     if (decodedToken.exp * 1000 < new Date().getTime()) {
       dispatch(setLogout());
+      navigate("/signin");
+      
     }
   }
   return (

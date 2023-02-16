@@ -14,6 +14,8 @@ export const createTransaction = (transaction) =>
 export const getTransactions = () => API.get("/transactions");
 export const getTransaction = (id) =>
   API.post(`/transactions/singleTransection/${id}`);
+export const updateTransaction = (id, transaction_data) =>
+  API.patch(`/transactions/${id}`, transaction_data);
 export const deleteTransaction = (id) => API.delete(`/transactions/${id}`);
 
 export const signin = (userData) => API.post("/users/signin", userData);

@@ -6,23 +6,33 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
+  allTransactionStatement,
   deleteTransaction,
   getTransactions,
 } from "../../redux/services/transactionSlice.js";
 import Spinner from "../../components/utils/Spinner.jsx";
 const Statements = () => {
-  const { transactions, loading } = useSelector(
+  const { transactions, loading, statementTransactions } = useSelector(
     (state) => state.transactionState
   );
+  console.log(statementTransactions);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTransactions());
   }, [dispatch]);
-
+  const [statement_data, setStatement] = useState({
+    transaction_type: "",
+    start_date: "",
+    end_date: "",
+  });
+  const handleInput = (e) => {
+    setStatement({ ...statement_data, [e.target.name]: e.target.value });
+  };
   // check statement form fucntion
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+    dispatch(allTransactionStatement(statement_data));
   };
 
   // delete
@@ -46,13 +56,13 @@ const Statements = () => {
       field: "registred_date",
       headerName: "Registred Date",
       headerClassName: "sm:text-left text-right font-bold",
-      width: 250,
+      width: 300,
     },
     {
       field: "transection_type",
       headerName: "Transaction Type",
       headerClassName: "sm:text-left text-right font-bold",
-      width: 170,
+      width: 200,
       renderCell: (params) => {
         return params.row.transection_type === "deposit" ? (
           <div className="bg-green-600 text-white border-2 px-2 py-0.5 rounded-full">
@@ -73,7 +83,7 @@ const Statements = () => {
       field: "amount",
       headerName: "Amount",
       headerClassName: "sm:text-left text-right font-bold",
-      width: 100,
+      width: 150,
     },
 
     {
@@ -116,15 +126,18 @@ const Statements = () => {
             {/* top bar */}
             <form onSubmit={handleSubmit}>
               <div className="flex justify-center items-center gap-5">
-                <div class="flex flex-1 flex-col gap-2">
+                <div className="flex flex-1 flex-col gap-2">
                   <label htmlFor="Firstname" className="font-medium">
                     Transaction Type
                   </label>
                   <select
+                    name="transaction_type"
                     className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
                     required
                   >
                     {/* <option value="">Select </option> */}
+                    <option value="">Select</option>
                     <option value="all">All</option>
                     <option value="deposit">Deposit</option>
                     <option value="withdraw">Withdraw</option>
@@ -137,8 +150,9 @@ const Statements = () => {
                   </label>
                   <input
                     type="date"
-                    name="registred_date"
+                    name="start_date"
                     className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
                     required
                   />
                 </div>
@@ -149,8 +163,9 @@ const Statements = () => {
                   </label>
                   <input
                     type="date"
-                    name="registred_date"
+                    name="end_date"
                     className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
                     required
                   />
                 </div>

@@ -28,9 +28,18 @@ const AddTransection = () => {
   const handleChange = (event) => {
     setTransaction({ ...transaction, [event.target.name]: event.target.value });
   };
+  const clear = () => {
+    setTransaction({
+      transection_type: "",
+      amount: "",
+      registred_date: "",
+      description: "",
+    });
+  };
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(createTransaction({ transaction, toast, navigate }));
+    clear();
     console.log(transaction);
   };
   return (

@@ -108,10 +108,10 @@ const Transections = () => {
       },
     },
   ];
-  const countId = 1;
+  // var countId = 1;
 
   const rows = transactions?.map((row) => ({
-    id: row?._id,
+    id: row._id,
     transection_type: row?.transection_type,
     amount: `$ ${row?.amount}`,
     registred_date: row?.registred_date,
