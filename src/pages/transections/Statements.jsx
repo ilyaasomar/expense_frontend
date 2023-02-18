@@ -6,18 +6,18 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  allTransactionStatement,
-  deleteTransaction,
+  getStatement,
   getTransactions,
 } from "../../redux/services/transactionSlice.js";
 import Spinner from "../../components/utils/Spinner.jsx";
 const Statements = () => {
-  const { transactions, loading, statementTransactions } = useSelector(
+  const { transactions, loading, statements } = useSelector(
     (state) => state.transactionState
   );
-  console.log(statementTransactions);
+  console.log(statements);
 
   const dispatch = useDispatch();
+  const preventReload = false;
   useEffect(() => {
     dispatch(getTransactions());
   }, [dispatch]);
@@ -32,18 +32,11 @@ const Statements = () => {
   // check statement form fucntion
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(allTransactionStatement(statement_data));
+    dispatch(getStatement(statement_data));
+    // dispatch(allTransactionStatement(statement_data));
   };
 
-  // delete
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this Transaction ?")) {
-      dispatch(deleteTransaction({ id, toast }));
-    }
-  };
-
-  if (loading) return <Spinner />;
+  // if (loading) return <Spinner />;
   //static columns
   const columns = [
     {
@@ -102,17 +95,33 @@ const Statements = () => {
   ];
   let countId = 1;
   let balance = 0;
-  const rows = transactions?.map((row) => ({
-    id: countId++,
-    transection_type: row?.transection_type,
-    amount: `$ ${row?.amount}`,
-    registred_date: row?.registred_date,
-    balance: `$ ${
-      row.transection_type === "deposit"
-        ? (balance += row.amount)
-        : (balance -= row.amount)
-    }`,
-  }));
+  let rows = "";
+  let statement_info = "";
+  if (statements.length > 0) {
+    statement_info = statements?.map((row) => ({
+      id: countId++,
+      transection_type: row?.transection_type,
+      amount: `$ ${row?.amount}`,
+      registred_date: row?.registred_date,
+      balance: `$ ${
+        row.transection_type === "deposit"
+          ? (balance += row.amount)
+          : (balance -= row.amount)
+      }`,
+    }));
+  } else {
+    rows = transactions?.map((row) => ({
+      id: countId++,
+      transection_type: row?.transection_type,
+      amount: `$ ${row?.amount}`,
+      registred_date: row?.registred_date,
+      balance: `$ ${
+        row.transection_type === "deposit"
+          ? (balance += row.amount)
+          : (balance -= row.amount)
+      }`,
+    }));
+  }
   return (
     <>
       <div className="bg-gray-100 min-h-screen">
@@ -186,7 +195,7 @@ const Statements = () => {
             <ul className="py-10">
               <DataGrid
                 columns={columns}
-                rows={rows}
+                rows={statement_info}
                 pageSize={10}
                 rowsPerPageOptions={[10]}
                 className="max-w-full min-h-[70vh]"

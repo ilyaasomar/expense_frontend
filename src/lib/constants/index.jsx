@@ -30,7 +30,12 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     path: "/statements",
     icon: <HiOutlineDocumentText />,
   },
-
+  {
+    key: "accounts",
+    label: "Accounts",
+    path: "/accounts",
+    icon: <HiOutlineDocumentText />,
+  },
   // {
   //   key: "deposit-report",
   //   label: "Deposit Report",

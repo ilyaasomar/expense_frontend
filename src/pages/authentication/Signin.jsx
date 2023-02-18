@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { clearError, signin } from "../../redux/services/authSlice";
@@ -27,7 +27,6 @@ const Signin = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     dispatch(signin({ userData, toast, navigate }));
-  
   };
   return (
     <div className="flex w-screen h-screen bg-gray-100">
@@ -64,6 +63,7 @@ const Signin = () => {
                 name="password"
                 onChange={handleInput}
                 id="password"
+                placeholder="***************"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 required
               />
@@ -75,6 +75,7 @@ const Signin = () => {
             >
               Signin
             </button>
+            <Link to="/signup" className="ml-6">Not have an account?</Link>
           </form>
         </div>
       </div>

@@ -61,7 +61,18 @@ export const updateTransaction = createAsyncThunk(
     }
   }
 );
-
+// get statement by date range login user
+export const getStatement = createAsyncThunk(
+  "transaction/getStatement",
+  async (statement_data, { rejectWithValue }) => {
+    try {
+      const response = await api.getStatement(statement_data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // delete transections based login user
 export const deleteTransaction = createAsyncThunk(
   "transaction/deleteTransaction",
@@ -83,7 +94,7 @@ const transectionSlice = createSlice({
   name: "transsection",
   initialState: {
     transactions: [],
-    statementTransactions: [],
+    statements: [],
     transaction: null,
     loading: false,
     error: "",
@@ -92,22 +103,22 @@ const transectionSlice = createSlice({
     clearError: (state) => {
       state.error = "";
     },
-    allTransactionStatement: (state, action) => {
-      let transType = action.payload.transaction_type;
-      let startDate = action.payload.start_date;
-      let endDate = action.payload.end_date;
-      // state.statementTransactions = action.payload.transaction_type;
-      state.statementTransactions = state.transactions.find((trans) =>
-        trans.registred_date >= startDate ? action.payload : ""
-      );
-      // state.statementTransactions = state.transactions.find(
-      //   (trans) =>
-      //     trans.registred_date >= startDate &&
-      //     trans.registred_date <= endDate &&
-      //     trans.transaction_type === "deposit",
-      //   "withdraw"
-      // );
-    },
+    // allTransactionStatement: (state, action) => {
+    //   let transType = action.payload.transaction_type;
+    //   let startDate = action.payload.start_date;
+    //   let endDate = action.payload.end_date;
+    //   // state.statementTransactions = action.payload.transaction_type;
+    //   state.statementTransactions = state.transactions.find((trans) =>
+    //     trans.registred_date >= startDate ? action.payload : ""
+    //   );
+    //   // state.statementTransactions = state.transactions.find(
+    //   //   (trans) =>
+    //   //     trans.registred_date >= startDate &&
+    //   //     trans.registred_date <= endDate &&
+    //   //     trans.transaction_type === "deposit",
+    //   //   "withdraw"
+    //   // );
+    // },
   },
   extraReducers: {
     [getTransactions.pending]: (state, action) => {
@@ -161,6 +172,17 @@ const transectionSlice = createSlice({
       state.loading = false;
       state.error = action.payload || action.payload.error;
     },
+    [getStatement.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getStatement.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.statements = action.payload;
+    },
+    [getStatement.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload || action.payload.error;
+    },
     [deleteTransaction.pending]: (state, action) => {
       state.loading = true;
     },
@@ -179,5 +201,5 @@ const transectionSlice = createSlice({
     },
   },
 });
-export const { clearError, allTransactionStatement } = transectionSlice.actions;
+export const { clearError } = transectionSlice.actions;
 export default transectionSlice.reducer;
