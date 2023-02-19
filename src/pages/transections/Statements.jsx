@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
+  clearDataGrid,
   getStatement,
   getTransactions,
 } from "../../redux/services/transactionSlice.js";
@@ -14,12 +15,12 @@ const Statements = () => {
   const { transactions, loading, statements } = useSelector(
     (state) => state.transactionState
   );
-  console.log(statements);
 
   const dispatch = useDispatch();
-  const preventReload = false;
+
   useEffect(() => {
     dispatch(getTransactions());
+    // dispatch(clearDataGrid());
   }, [dispatch]);
   const [statement_data, setStatement] = useState({
     transaction_type: "",

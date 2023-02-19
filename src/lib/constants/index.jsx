@@ -52,7 +52,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
   {
     key: "users",
     label: "User Info",
-    path: "/users",
+    path: "/profile",
     icon: <HiOutlineCube />,
   },
   // {

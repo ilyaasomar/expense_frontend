@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
+  clearError,
   getTransaction,
   updateTransaction,
 } from "../../redux/services/transactionSlice";
@@ -34,8 +35,13 @@ const UpdateTransection = () => {
   }, [id]);
 
   useEffect(() => {
-    error && toast.error(error);
-  }, [error]);
+    error &&
+      toast.error(error, {
+        position: "top-right",
+        autoClose: 1000,
+      });
+    dispatch(clearError());
+  }, [error, dispatch]);
 
   const handleChange = (event) => {
     setTransaction({
@@ -45,6 +51,14 @@ const UpdateTransection = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    let amount = Number(transaction_data.amount);
+    if (amount <= 0) {
+      toast.error("Amount muste greater then 0", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      return false;
+    }
     dispatch(updateTransaction({ id, transaction_data, toast, navigate }));
     console.log(transaction_data);
   };

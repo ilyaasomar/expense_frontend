@@ -11,7 +11,7 @@ const AddTransection = () => {
   const dispatch = useDispatch();
   const [transaction, setTransaction] = useState({
     transection_type: "",
-    amount: "",
+    amount: null,
     registred_date: "",
     description: "",
   });
@@ -38,9 +38,16 @@ const AddTransection = () => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    let amount = Number(transaction.amount);
+    if (amount <= 0) {
+      toast.error("Amount muste greater then 0", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      return false;
+    }
     dispatch(createTransaction({ transaction, toast, navigate }));
     clear();
-    console.log(transaction);
   };
   return (
     <div className="bg-gray-100 min-h-screen">

@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
   deleteTransaction,
+  getTransactionByDate,
   getTransactions,
 } from "../../redux/services/transactionSlice.js";
 import Spinner from "../../components/utils/Spinner.jsx";
@@ -18,16 +19,27 @@ const Transections = () => {
   useEffect(() => {
     dispatch(getTransactions());
   }, [dispatch]);
-
+  const [transaction_data, setTransaction] = useState({
+    transaction_type: "",
+    start_date: "",
+    end_date: "",
+  });
+  const handleInput = (e) => {
+    setTransaction({ ...transaction_data, [e.target.name]: e.target.value });
+  };
+  // check statement form fucntion
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(getTransactionByDate(transaction_data));
+  };
   // delete
-
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this Transaction ?")) {
       dispatch(deleteTransaction({ id, toast }));
     }
   };
 
-  if (loading) return <Spinner />;
+  // if (loading) return <Spinner />;
   //static columns
   const columns = [
     {
@@ -139,7 +151,65 @@ const Transections = () => {
 
         <div className="p-4">
           <div className="w-full h-full m-auto p-4 border rounded-lg bg-white overflow-y-auto">
-            <ul>
+            <form onSubmit={handleSubmit}>
+              <div className="flex justify-center items-center gap-5">
+                <div className="flex flex-1 flex-col gap-2">
+                  <label htmlFor="Firstname" className="font-medium">
+                    Transaction Type
+                  </label>
+                  <select
+                    name="transaction_type"
+                    className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
+                    required
+                  >
+                    {/* <option value="">Select </option> */}
+                    <option value="">Select</option>
+                    <option value="all">All</option>
+                    <option value="deposit">Deposit</option>
+                    <option value="withdraw">Withdraw</option>
+                  </select>
+                </div>
+                {/* from date */}
+                <div className="flex flex-1 flex-col gap-2">
+                  <label htmlFor="Firstname" className="font-medium">
+                    Start Date
+                  </label>
+                  <input
+                    type="date"
+                    name="start_date"
+                    className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
+                    required
+                  />
+                </div>
+                {/* to date */}
+                <div className="flex flex-1 flex-col gap-2">
+                  <label htmlFor="Firstname" className="font-medium">
+                    End Date
+                  </label>
+                  <input
+                    type="date"
+                    name="end_date"
+                    className="border border-gray-400 py-2 px-3 rounded-md"
+                    onChange={handleInput}
+                    required
+                  />
+                </div>
+                {/* button */}
+                <div className="flex flex-1 flex-col">
+                  {/* this input i use aligment for button if you remote button will be up */}
+                  <input type="text" />
+                  <button
+                    type="submit"
+                    className="bg-blue-500 py-3 text-center text-white rounded-md"
+                  >
+                    Check Transaction
+                  </button>
+                </div>
+              </div>
+            </form>
+            <ul className="py-10">
               <DataGrid
                 columns={columns}
                 rows={rows}

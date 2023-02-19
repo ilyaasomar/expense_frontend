@@ -17,6 +17,8 @@ export const getTransaction = (id) =>
 export const updateTransaction = (id, transaction_data) =>
   API.patch(`/transactions/${id}`, transaction_data);
 
+export const getTransactionByDate = (transaction_data) =>
+  API.post("/transactions/getTransactionByDate", transaction_data);
 export const getStatement = (statement_data) =>
   API.post("/transactions/checkStatement/", statement_data);
 export const deleteTransaction = (id) => API.delete(`/transactions/${id}`);

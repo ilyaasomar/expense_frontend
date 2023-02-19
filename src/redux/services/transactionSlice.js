@@ -48,13 +48,24 @@ export const updateTransaction = createAsyncThunk(
   "transaction/updateTransaction",
   async ({ id, transaction_data, toast, navigate }, { rejectWithValue }) => {
     try {
-      const response = api.updateTransaction(id, transaction_data);
+      const response = await api.updateTransaction(id, transaction_data);
       toast.success("Transaction Updated Successfully!", {
         position: "top-right",
         autoClose: 1000,
       });
       navigate("/transactions");
-      console.log(response.data);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
+// get transaction by date range login user
+export const getTransactionByDate = createAsyncThunk(
+  "transaction/getTransactionByDate",
+  async (transaction_data, { rejectWithValue }) => {
+    try {
+      const response = await api.getTransactionByDate(transaction_data);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -102,6 +113,9 @@ const transectionSlice = createSlice({
   reducers: {
     clearError: (state) => {
       state.error = "";
+    },
+    clearDataGrid: (state) => {
+      // state.transactions = "";
     },
     // allTransactionStatement: (state, action) => {
     //   let transType = action.payload.transaction_type;
@@ -164,8 +178,9 @@ const transectionSlice = createSlice({
       } = action.meta;
       if (id) {
         state.transactions = state.transactions.map((item) =>
-          item._id === id ? transaction_data : item
+          item._id === id ? action.payload : item
         );
+        // state.transactions = id;
       }
     },
     [updateTransaction.rejected]: (state, action) => {
@@ -180,6 +195,17 @@ const transectionSlice = createSlice({
       state.statements = action.payload;
     },
     [getStatement.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload || action.payload.error;
+    },
+    [getTransactionByDate.pending]: (state, action) => {
+      state.loading = true;
+    },
+    [getTransactionByDate.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.transactions = action.payload;
+    },
+    [getTransactionByDate.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload || action.payload.error;
     },
@@ -201,5 +227,5 @@ const transectionSlice = createSlice({
     },
   },
 });
-export const { clearError } = transectionSlice.actions;
+export const { clearError, clearDataGrid } = transectionSlice.actions;
 export default transectionSlice.reducer;
