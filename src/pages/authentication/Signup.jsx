@@ -9,7 +9,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUser] = useState({
-    fullname: "",
+    name: "",
     phone: "",
     email: "",
     password: "",
@@ -46,11 +46,9 @@ const Signup = () => {
             <div className="mb-6 mt-10">
               <input
                 type="text"
-                name="fullname"
-                onChange={(e) =>
-                  setUser({ ...userData, fullname: e.target.value })
-                }
-                id="fullname"
+                name="name"
+                onChange={(e) => setUser({ ...userData, name: e.target.value })}
+                id="name"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 placeholder="Enter your full name"
                 required

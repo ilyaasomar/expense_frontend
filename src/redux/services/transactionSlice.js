@@ -174,7 +174,7 @@ const transectionSlice = createSlice({
     [updateTransaction.fulfilled]: (state, action) => {
       state.loading = false;
       const {
-        arg: { id, transaction_data },
+        arg: { id },
       } = action.meta;
       if (id) {
         state.transactions = state.transactions.map((item) =>

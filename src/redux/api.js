@@ -25,3 +25,5 @@ export const deleteTransaction = (id) => API.delete(`/transactions/${id}`);
 
 export const signin = (userData) => API.post("/users/signin", userData);
 export const signup = (userData) => API.post("/users/signup", userData);
+export const updateUser = (id, userData) =>
+  API.patch(`/users/updateUser/${id}`, userData);

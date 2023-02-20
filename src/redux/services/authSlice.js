@@ -35,6 +35,21 @@ export const signup = createAsyncThunk(
     }
   }
 );
+export const updateUser = createAsyncThunk(
+  "/user/updateUser",
+  async ({ id, userData, toast }, { rejectWithValue }) => {
+    try {
+      const response = await api.updateUser(id, userData);
+      toast.success("User Updated Successful!", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 // create reducers and actions
 const AuthSlice = createSlice({
   name: "user",
@@ -79,6 +94,25 @@ const AuthSlice = createSlice({
     [signup.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
+    },
+    [updateUser.pending]: (state) => {
+      state.loading = true;
+    },
+    [updateUser.fulfilled]: (state, action) => {
+      state.loading = false;
+      const {
+        arg: { id },
+      } = action.meta;
+      if (id) {
+        state.user = state.user.map((item) =>
+          item._id === id ? action.payload : item
+        );
+      }
+      localStorage.setItem("user", JSON.stringify({ ...action.payload }));
+    },
+    [updateUser.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload || action.payload.message;
     },
   },
 });

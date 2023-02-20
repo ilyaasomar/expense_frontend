@@ -12,7 +12,7 @@ import Signup from "../pages/authentication/Signup";
 import UpdateTransection from "../pages/transections/UpdateTransaction";
 import Statements from "../pages/transections/Statements";
 import ProtectedRoutes from "../middleware/ProtectedRoutes";
-import Profile from "../pages/transections/profile/Profile";
+import Profile from "../pages/profile/Profile";
 const MainRoutes = () => {
   return (
     <BrowserRouter>
