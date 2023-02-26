@@ -1,5 +1,7 @@
 import axios from "axios";
-const API = axios.create({ baseURL: "http://localhost:9200/api" });
+const API = axios.create({
+  baseURL: "https://expense-app-server.onrender.com/api",
+});
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("user")) {
     req.headers.authorization = `Bearer ${
