@@ -108,6 +108,7 @@ const AuthSlice = createSlice({
           item._id === id ? action.payload : item
         );
       }
+      localStorage.clear();
       localStorage.setItem("user", JSON.stringify({ ...action.payload }));
     },
     [updateUser.rejected]: (state, action) => {
