@@ -14,7 +14,6 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    // profilePic: "",
   });
   useEffect(() => {
     error &&
@@ -107,17 +106,6 @@ const Signup = () => {
                 required
               />
             </div>
-            {/* <div className="mb-6">
-              <input
-                type="file"
-                name="profilePic"
-                onChange={(e) =>
-                  setUser({ ...userData, profilePic: e.target.files[0] })
-                }
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                required
-              />
-            </div> */}
 
             <button
               type="submit"

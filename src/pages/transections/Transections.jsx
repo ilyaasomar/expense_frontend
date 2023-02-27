@@ -1,6 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
-import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
-import { data } from "../../data/data1.js";
+import React, { useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,11 +8,8 @@ import {
   getTransactionByDate,
   getTransactions,
 } from "../../redux/services/transactionSlice.js";
-import Spinner from "../../components/utils/Spinner.jsx";
 const Transections = () => {
-  const { transactions, error, loading } = useSelector(
-    (state) => state.transactionState
-  );
+  const { transactions } = useSelector((state) => state.transactionState);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getTransactions());
@@ -39,7 +34,6 @@ const Transections = () => {
     }
   };
 
-  // if (loading) return <Spinner />;
   //static columns
   const columns = [
     {
