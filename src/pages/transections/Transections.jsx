@@ -73,7 +73,7 @@ const Transections = () => {
       field: "registred_date",
       headerName: "Registred Date",
       headerClassName: "sm:text-left text-right font-bold",
-      width: 250,
+      width: 150,
     },
     {
       field: "description",

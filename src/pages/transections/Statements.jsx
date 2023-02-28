@@ -50,7 +50,7 @@ const Statements = () => {
       field: "registred_date",
       headerName: "Registred Date",
       headerClassName: "sm:text-left text-right font-bold",
-      width: 300,
+      width: 150,
     },
     {
       field: "transection_type",
@@ -72,6 +72,12 @@ const Statements = () => {
           </div>
         );
       },
+    },
+    {
+      field: "description",
+      headerName: "Description",
+      headerClassName: "sm:text-left text-right font-bold",
+      width: 150,
     },
     {
       field: "amount",
@@ -102,6 +108,7 @@ const Statements = () => {
     statement_info = statements?.map((row) => ({
       id: countId++,
       transection_type: row?.transection_type,
+      description: row?.description,
       amount: `$ ${row?.amount}`,
       registred_date: row?.registred_date,
       balance: `$ ${
@@ -114,6 +121,7 @@ const Statements = () => {
     rows = transactions?.map((row) => ({
       id: countId++,
       transection_type: row?.transection_type,
+      description: row?.description,
       amount: `$ ${row?.amount}`,
       registred_date: row?.registred_date,
       balance: `$ ${
